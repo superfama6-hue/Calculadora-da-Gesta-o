@@ -11,10 +11,9 @@
         header{
             background:linear-gradient(135deg,#004aad,#0066cc);
             color:white;
-            padding:40px 20px;
+            padding:35px 20px;
             text-align:center;
         }
-        .logo{max-width:200px;margin-bottom:15px;}
         .container{max-width:1100px;margin:auto;padding:20px;}
         .card{
             background:white;
@@ -29,7 +28,7 @@
             border:2px solid #ddd;
             border-radius:12px;
             font-size:16px;
-            margin-top:10px;
+            margin-top:8px;
         }
         button{
             width:100%;
@@ -73,31 +72,33 @@
             text-decoration:none;
             margin:25px 0;
         }
-        .alerta{
-            background:#fff3cd;
-            border-left:6px solid #ffc107;
-        }
-        footer{
-            text-align:center;
-            padding:25px;
-            color:#666;
-            font-size:14px;
-        }
+        .alerta{background:#fff3cd; border-left:6px solid #ffc107;}
+        footer{text-align:center; padding:25px; color:#666; font-size:14px;}
         #resultado{display:none;}
         .error{color:#d32f2f; font-size:14px; margin-top:5px;}
+        .input-group{margin-bottom:15px;}
     </style>
 </head>
 <body>
     <header>
-        <img src="logo.png" alt="Drogaria Superfama" class="logo">
         <h1>🤰 Calculadora da Gestação</h1>
-        <p>Drogaria Superfama - Cuidando de você e do seu bebê</p>
+        <p>Drogaria Superfama</p>
     </header>
 
     <div class="container">
         <div class="card">
             <h2>📅 Informe a Data da Última Menstruação (DUM)</h2>
-            <input type="date" id="dum">
+            
+            <div class="input-group">
+                <label><strong>Usar calendário:</strong></label>
+                <input type="date" id="dum">
+            </div>
+
+            <div class="input-group">
+                <label><strong>Ou digitar manualmente (DD/MM/AAAA):</strong></label>
+                <input type="text" id="dum_texto" placeholder="Ex: 15/04/2025" maxlength="10">
+            </div>
+
             <div id="erro" class="error"></div>
             <button onclick="calcular()">CALCULAR GESTAÇÃO</button>
         </div>
@@ -132,7 +133,6 @@
                 <p id="sintomas"></p>
             </div>
 
-            <!-- Restante do conteúdo mantido igual (vitaminas, alimentação, etc.) -->
             <div class="card">
                 <h2>💊 Vitaminas e Suplementos Comumente Indicados</h2>
                 <ul>
@@ -157,6 +157,18 @@
                 </ul>
             </div>
 
+            <div class="card">
+                <h2>📝 Exames Comuns na Gestação</h2>
+                <ul>
+                    <li>Beta HCG</li>
+                    <li>Hemograma</li>
+                    <li>Glicemia</li>
+                    <li>Ultrassom Obstétrico</li>
+                    <li>Ultrassom Morfológico</li>
+                    <li>Exames Sorológicos</li>
+                </ul>
+            </div>
+
             <div class="card alerta">
                 <h2>🚨 Procure Atendimento Médico se Houver:</h2>
                 <ul>
@@ -175,25 +187,39 @@
     </div>
 
     <footer>
-        ❤️ Drogaria Superfama - Cuidando da mamãe e do bebê desde 20XX
+        ❤️ Drogaria Superfama - Cuidando da mamãe e do bebê
     </footer>
 
     <script>
     function calcular() {
-        const dumInput = document.getElementById("dum");
+        const dumCalendario = document.getElementById("dum").value;
+        const dumTexto = document.getElementById("dum_texto").value.trim();
         const erro = document.getElementById("erro");
         erro.textContent = "";
 
-        if (!dumInput.value) {
-            erro.textContent = "Por favor, informe a data da última menstruação.";
+        let dataDum;
+
+        if (dumCalendario) {
+            dataDum = new Date(dumCalendario);
+        } 
+        else if (dumTexto) {
+            const partes = dumTexto.split('/');
+            if (partes.length === 3) {
+                const dia = parseInt(partes[0]);
+                const mes = parseInt(partes[1]) - 1;
+                const ano = parseInt(partes[2]);
+                dataDum = new Date(ano, mes, dia);
+            }
+        }
+
+        if (!dataDum || isNaN(dataDum.getTime())) {
+            erro.textContent = "Por favor, informe uma data válida (use o calendário ou digite no formato DD/MM/AAAA).";
             return;
         }
 
-        const dataDum = new Date(dumInput.value);
         const hoje = new Date();
         hoje.setHours(0,0,0,0);
 
-        // Validação: não permitir data futura
         if (dataDum > hoje) {
             erro.textContent = "A data da DUM não pode ser no futuro.";
             return;
@@ -205,26 +231,18 @@
         const diasRestantes = dias % 7;
         const meses = Math.floor(semanas / 4.345);
 
-        let trimestre = "";
-        if (semanas <= 13) trimestre = "1º";
-        else if (semanas <= 27) trimestre = "2º";
-        else trimestre = "3º";
+        let trimestre = semanas <= 13 ? "1º" : semanas <= 27 ? "2º" : "3º";
 
-        // Data prevista do parto
         const parto = new Date(dataDum);
         parto.setDate(parto.getDate() + 280);
 
-        // Preenche resultados
         document.getElementById("idadeGestacional").innerHTML = `${semanas} semanas e ${diasRestantes} dias`;
         document.getElementById("meses").innerHTML = `${meses} meses`;
         document.getElementById("trimestre").innerHTML = `${trimestre}º trimestre`;
         document.getElementById("parto").innerHTML = parto.toLocaleDateString('pt-BR', { 
-            day: '2-digit', 
-            month: 'long', 
-            year: 'numeric' 
+            day: '2-digit', month: 'long', year: 'numeric' 
         });
 
-        // Desenvolvimento e sintomas
         let bebe = "", sintomas = "";
         if (semanas <= 13) {
             bebe = "Seu bebê está na fase embrionária, formando os principais órgãos, coração, braços e pernas.";
