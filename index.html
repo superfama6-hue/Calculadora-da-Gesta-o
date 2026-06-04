@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Drogaria Superfama - Calculadora da Gestação</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#f4f7fb;
+}
+
+header{
+background:linear-gradient(135deg,#004aad,#0066cc);
+color:white;
+padding:30px;
+text-align:center;
+}
+
+.logo{
+max-width:180px;
+margin-bottom:15px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:18px;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+input{
+width:100%;
+padding:15px;
+border:2px solid #ddd;
+border-radius:12px;
+margin-top:10px;
+}
+
+button{
+width:100%;
+padding:15px;
+background:#ff1744;
+color:white;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+}
+
+button:hover{
+opacity:.9;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+}
+
+.info{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 4px 10px rgba(0,0,0,.08);
+text-align:center;
+}
+
+.info h3{
+color:#004aad;
+margin-bottom:10px;
+}
+
+.numero{
+font-size:28px;
+font-weight:bold;
+color:#ff1744;
+}
+
+.whatsapp{
+display:block;
+text-align:center;
+background:#25D366;
+color:white;
+padding:18px;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+text-decoration:none;
+margin-top:20px;
+}
+
+.alerta{
+background:#fff3cd;
+border-left:6px solid #ffc107;
+}
+
+footer{
+text-align:center;
+padding:20px;
+color:#666;
+}
+
+#resultado{
+display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<!-- TROQUE A IMAGEM ABAIXO PELA SUA LOGO -->
+<img src="logo.png" class="logo">
+
+<h1>🤰 Calculadora da Gestação</h1>
+<p>Drogaria Superfama</p>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>📅 Informe a DUM</h2>
+
+<p>Digite a Data da Última Menstruação</p>
+
+<input type="date" id="dum">
+
+<button onclick="calcular()">
+CALCULAR GESTAÇÃO
+</button>
+
+</div>
+
+<div id="resultado">
+
+<div class="grid">
+
+<div class="info">
+<h3>Semanas</h3>
+<div id="semanas" class="numero"></div>
+</div>
+
+<div class="info">
+<h3>Meses</h3>
+<div id="meses" class="numero"></div>
+</div>
+
+<div class="info">
+<h3>Trimestre</h3>
+<div id="trimestre" class="numero"></div>
+</div>
+
+<div class="info">
+<h3>Parto Previsto</h3>
+<div id="parto"></div>
+</div>
+
+</div>
+
+<div class="card">
+<h2>👶 Desenvolvimento do Bebê</h2>
+<p id="bebe"></p>
+</div>
+
+<div class="card">
+<h2>❤️ O que a Mamãe Pode Sentir</h2>
+<p id="sintomas"></p>
+</div>
+
+<div class="card">
+<h2>💊 Vitaminas e Suplementos Comumente Indicados</h2>
+
+<ul>
+<li>Ácido Fólico</li>
+<li>Ferro</li>
+<li>Vitamina D</li>
+<li>Cálcio</li>
+<li>Ômega 3 (quando indicado)</li>
+<li>Vitaminas Pré-Natais</li>
+</ul>
+
+<br>
+
+<p>
+A suplementação deve ser orientada pelo médico ou profissional de saúde responsável pelo pré-natal.
+</p>
+
+</div>
+
+<div class="card">
+<h2>🥗 Alimentação Recomendada</h2>
+
+<ul>
+<li>Frutas</li>
+<li>Verduras</li>
+<li>Legumes</li>
+<li>Proteínas magras</li>
+<li>Água em abundância</li>
+<li>Alimentos ricos em ferro</li>
+</ul>
+
+</div>
+
+<div class="card">
+<h2>📝 Exames Comuns na Gestação</h2>
+
+<ul>
+<li>Beta HCG</li>
+<li>Hemograma</li>
+<li>Glicemia</li>
+<li>Ultrassom Obstétrico</li>
+<li>Ultrassom Morfológico</li>
+<li>Exames Sorológicos</li>
+</ul>
+
+</div>
+
+<div class="card alerta">
+
+<h2>🚨 Procure Atendimento Médico se Houver:</h2>
+
+<ul>
+<li>Sangramento vaginal</li>
+<li>Febre</li>
+<li>Dor intensa</li>
+<li>Perda de líquido</li>
+<li>Falta de movimentos do bebê</li>
+<li>Falta de ar importante</li>
+<li>Dor de cabeça intensa</li>
+</ul>
+
+</div>
+
+<a
+class="whatsapp"
+href="https://wa.me/556193166427"
+target="_blank"
+>
+💬 Falar com a Drogaria Superfama no WhatsApp
+</a>
+
+</div>
+
+</div>
+
+<footer>
+❤️ Drogaria Superfama - Cuidando da mamãe e do bebê
+</footer>
+
+<script>
+
+function calcular(){
+
+let dum=document.getElementById("dum").value;
+
+if(!dum){
+alert("Informe a DUM");
+return;
+}
+
+let dataDum=new Date(dum);
+let hoje=new Date();
+
+let dias=Math.floor(
+(hoje-dataDum)/(1000*60*60*24)
+);
+
+let semanas=Math.floor(dias/7);
+
+let meses=Math.floor(semanas/4.3);
+
+let trimestre="";
+
+if(semanas<=13){
+trimestre="1º";
+}
+else if(semanas<=27){
+trimestre="2º";
+}
+else{
+trimestre="3º";
+}
+
+let parto=new Date(dataDum);
+parto.setDate(parto.getDate()+280);
+
+document.getElementById("semanas").innerHTML=semanas+" semanas";
+document.getElementById("meses").innerHTML=meses+" meses";
+document.getElementById("trimestre").innerHTML=trimestre+" trimestre";
+document.getElementById("parto").innerHTML=
+parto.toLocaleDateString("pt-BR");
+
+let bebe="";
+let sintomas="";
+
+if(semanas<=13){
+
+bebe="Seu bebê está formando os principais órgãos, coração, braços e pernas.";
+
+sintomas="Enjoos, vômitos, sono excessivo, sensibilidade nos seios, tonturas leves e alterações de humor.";
+
+}
+else if(semanas<=27){
+
+bebe="Seu bebê já se movimenta bastante, escuta sons e continua crescendo rapidamente.";
+
+sintomas="Mais disposição, aumento do apetite, crescimento da barriga, dores leves nas costas e primeiros movimentos do bebê.";
+
+}
+else{
+
+bebe="Seu bebê está ganhando peso e amadurecendo para o nascimento.";
+
+sintomas="Azia, falta de ar leve, inchaço, dores lombares, cansaço e contrações de treinamento.";
+
+}
+
+document.getElementById("bebe").innerHTML=bebe;
+document.getElementById("sintomas").innerHTML=sintomas;
+
+document.getElementById("resultado").style.display="block";
+
+}
+
+</script>
+
+</body>
+</html>
